@@ -116,14 +116,15 @@ function ProductPage({ colorObj }) {
   const onSubmit = async (e) => {
     e.preventDefault()
     const body = {
-      colorId: color,
-      categoryId: category,
+      idColor: color,
+      idCategory: category,
       title: title,
       price: +price,
       size: size.join(','),
       img: photoPath,
       description: descr,
-      gender: selectedGender
+      gender: selectedGender,
+      id: id
     }
 
     console.log(body)
@@ -133,8 +134,8 @@ function ProductPage({ colorObj }) {
       'Authorization': token,
     }
 
-    await fetch(`${URL}/product/${id}`, {
-      method: 'PATCH',
+    await fetch(`${URL}/product/`, {
+      method: 'POST',
       body: JSON.stringify(body),
       headers: headers
     }).then(response => {
@@ -170,9 +171,7 @@ function ProductPage({ colorObj }) {
     }).then(response => {
       handleClose()
       return response.json()
-    });
-
-    navigate(`/`)
+    }).finally(() => {navigate(`/`)});    
   }
 
   return (
@@ -323,7 +322,7 @@ function ProductPage({ colorObj }) {
                             }
                           >
                             {allColors?.map(item => (
-                              <MenuItem value={item.id}>
+                              <MenuItem value={item}>
                                 <div className='option' style={{ display: 'flex', alignItems: 'center' }}>
                                   <div className='colorRect' style={{ background: item.hex }} />{item.name}
                                 </div>
@@ -376,7 +375,7 @@ function ProductPage({ colorObj }) {
                             onChange={handleChangeCategory}
                           >
                             {allCategories.map(item => (
-                              <MenuItem value={item.id}>{item.name}</MenuItem>
+                              <MenuItem value={item}>{item.name}</MenuItem>
                             ))}
                           </Select>
                         </FormControl>

@@ -76,7 +76,7 @@ function ColorFilter({ setColorFilter}) {
       hex: colorInput
     }
 
-    const res = await fetch(`${URL}/color`, {
+    const res = await fetch(`${URL}/colors`, {
       method: 'POST',
       body: JSON.stringify(body),
       headers: headers

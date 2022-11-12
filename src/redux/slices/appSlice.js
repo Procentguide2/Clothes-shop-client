@@ -56,7 +56,7 @@ const appSlice = createSlice({
   initialState: {
     token: localStorage.getItem('token') || null,
     userId: localStorage.getItem('userId') || null,
-    isAdmin: localStorage.getItem('isAdmin') || false,
+    isAdmin: localStorage.getItem('isAdmin') || true,
     email: localStorage.getItem('email') || '',
     favorite: [],
     loading: false,

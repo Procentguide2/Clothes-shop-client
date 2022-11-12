@@ -130,8 +130,8 @@ function ShopPage() {
   const onSubmit = async (e) => {
     e.preventDefault()
     const body = {
-      colorId: color,
-      categoryId: category,
+      idColor: color,
+      idCategory: category,
       title: title,
       price: +price,
       size: size.join(','),
@@ -173,7 +173,7 @@ function ShopPage() {
   const [categoryFilter, setCategoryFilter] = useState()
   useEffect(() => {
     if (categoryFilter !== undefined) {
-      setFilteredCloneData(productsData.filter((item) => item.categoryId === categoryFilter))
+      setFilteredCloneData(productsData.filter((item) => item?.idCategory?.id === categoryFilter))
     } else {
       setFilteredCloneData([...productsData])
     }
@@ -184,7 +184,7 @@ function ShopPage() {
     if (colorFilter === undefined) {
       setFilteredCloneData([...productsData])
     } else {
-      setFilteredCloneData(productsData.filter((item) => item.colorId === colorFilter))
+      setFilteredCloneData(productsData.filter((item) => item?.idColor?.id === colorFilter))
     }
   }, [colorFilter])
 
@@ -372,7 +372,7 @@ function ShopPage() {
                           }
                         >
                           {allColors?.map(item => (
-                            <MenuItem value={item.id}>
+                            <MenuItem value={item}>
                               <div className='option' style={{ display: 'flex', alignItems: 'center' }}>
                                 <div className='colorRect' style={{ background: item.hex }} />{item.name}
                               </div>
@@ -424,7 +424,7 @@ function ShopPage() {
                           onChange={handleChangeCategory}
                         >
                           {allCategories.map(item => (
-                            <MenuItem value={item.id}>{item.name}</MenuItem>
+                            <MenuItem value={item}>{item.name}</MenuItem>
                           ))}
                         </Select>
                       </FormControl>
@@ -440,8 +440,8 @@ function ShopPage() {
               <div className="shop-content__inner" >
                 {cloneProducts.map(item => (
                   <ProductItem
-                    category={allCategories.find(category => category.id === item.categoryId)}
-                    colorObj={allColors.find(color => color.id === item.colorId)}
+                    category={allCategories.find(category => category.id === item?.idCategory?.id)}
+                    colorObj={allColors.find(color => color.id === item?.idColor?.id)}
                     toList={toList}
                     img={item.img}
                     price={item.price}
