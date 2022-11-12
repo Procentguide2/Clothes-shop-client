@@ -1,0 +1,24 @@
+.colorRect {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 1px solid #cdcdcd;
+}
+
+.color-pallete{
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+
+  & div{
+    margin-left: 20px;
+    color: #000;
+    font-weight: 500;
+  }
+
+  & input{
+    margin-right: 20px;
+    cursor: pointer;
+  }
+}
