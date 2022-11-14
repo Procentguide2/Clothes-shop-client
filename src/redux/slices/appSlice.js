@@ -33,7 +33,7 @@ export const getAllColors = createAsyncThunk(
 export const getFavoriten = createAsyncThunk(
   'app/favoriten',
   async (userId, thunkAPI) => {
-    const favorites = await fetch(`${URL}/api/product/fav/${userId}`).then(response => {
+    const favorites = await fetch(`${URL}/product/fav/${userId}`).then(response => {
       if (response.ok) {
         return response.json()
       }

@@ -16,14 +16,15 @@ export default function CartPageItem({ colorObj, category, size, title, price, i
       'Content-Type': 'application/json'
     }
     
-    await fetch(`${URL}/product/fav/${favId}`, {
+    await fetch(`${URL}/product/fav/?idUser=${userId}&idProduct=${id}`, {
       method: 'DELETE',
       headers: headers
     }).then(response => {
+      dispatch(getFavoriten(userId))
       return response.json()
     });
 
-    dispatch(getFavoriten(userId))
+   
   }
 
   return (

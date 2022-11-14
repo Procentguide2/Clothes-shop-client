@@ -77,7 +77,7 @@ function Header({ favorite, userId }) {
 
             <div className="user-nav__link" onClick={handleClickCart}>
               <FavoriteOutlinedIcon />
-              {favorite?.products.length ? <span className="user-nav__num">{favorite?.products.length}</span> : ''}
+              {favorite?.length ? <span className="user-nav__num">{favorite?.length}</span> : ''}
               
             </div>
 
@@ -96,7 +96,7 @@ function Header({ favorite, userId }) {
               onClose={handleCloseCart}
               elevation={2}
             >
-              <CartPopover handleClose={handleCloseCart} favorite={favorite?.products} allColors={allColors} allCategories={allCategories}/>
+              <CartPopover handleClose={handleCloseCart} favorite={favorite} allColors={allColors} allCategories={allCategories}/>
             </Popover>
           </div>
         </div>

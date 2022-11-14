@@ -2,7 +2,6 @@ import './CartItem.scss'
 import { Link } from 'react-router-dom'
 
 export default function CartItem({ handleClose, title, price, size, img, colorObj, category, id}) {
-  console.log(category)
 
   return (
     <Link className='cartItem' onClick={handleClose} to={`/product?id=${id}&color=${colorObj?.name}&hex=${colorObj?.hex.replace('#', '')}&category=${category?.name}`}>

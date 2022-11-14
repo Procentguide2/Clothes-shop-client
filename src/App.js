@@ -36,7 +36,7 @@ function App() {
 
   return (
     <>
-      <Header favorite={favorite[0]} userId={userId}/>
+      <Header favorite={favorite} userId={userId}/>
 
       <Routes>
         <Route path="/" element={<HomePage />} />

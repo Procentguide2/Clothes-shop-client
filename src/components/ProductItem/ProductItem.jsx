@@ -5,32 +5,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { getFavoriten } from '../../redux/slices/appSlice';
 import { URL } from '../../api/api';
-
-const requestFetch = (url, method, body = null) => {
-  const headers = {
-    'Content-Type': 'application/json'
-  }
-
-  return fetch(url, {
-    method: method,
-    headers: headers
-  }).then(response => {
-    return response.json()
-  });
-}
-
+import axios from 'axios';
 
 function ProductItem({ toList, img, title, descr, price, colorId, id, size, colorObj, category }) {
   const dispatch = useDispatch()
-  const { userId } = useSelector(state => state.app)
+  const { userId, favorite } = useSelector(state => state.app)
   const navigate = useNavigate();
 
-  const addToFavorite = async (e) => {
-    if (userId === null){
+  const addToFavorite = (e) => {
+    if (userId === null) {
       navigate('/login')
     } else {
-      await requestFetch(`${URL}/product/fav/?userId=${userId}&productId=${id}`, 'POST')
-      dispatch(getFavoriten(userId))
+      axios.post(`${URL}/product/fav/?idUser=${userId}&idProduct=${id}`)
+        .then(res => {
+          if (res.status === 200) {
+            dispatch(getFavoriten(userId))
+          }
+        })
     }
   }
 
@@ -46,7 +37,10 @@ function ProductItem({ toList, img, title, descr, price, colorId, id, size, colo
             <ReadMoreOutlinedIcon />
           </Link>
 
-          <div className="product-item__link" onClick={addToFavorite}>
+          <div
+            className="product-item__link"
+            data-disabled={favorite.findIndex((item) => item.id === id) >= 0 ? true : false}
+            onClick={addToFavorite}>
             <FavoriteOutlinedIcon />
           </div>
 
@@ -66,7 +60,12 @@ function ProductItem({ toList, img, title, descr, price, colorId, id, size, colo
           <p className="product-item__text">
             {descr}
           </p>
-          <button className="product-item__btn">Add to favorite</button>
+          <button
+            className="product-item__btn"
+            disabled={favorite.findIndex((item) => item.id === id) >= 0 ? true : false}
+            onClick={addToFavorite}>
+            Add to favorite
+          </button>
         </div>
       </div>
     </div>

@@ -17,8 +17,8 @@ export default function CartPopover({ handleClose, favorite, allColors, allCateg
             {favorite.map(item => (
               <CartItem
                 id={item.id}
-                category={allCategories.find(category => category.id === item.categoryId)}
-                colorObj={allColors.find(color => color.id === item.colorId)}
+                category={allCategories.find(category => category.id === item.idCategory.id)}
+                colorObj={allColors.find(color => color.id === item.idColor.id)}
                 title={item.title}
                 price={item.price}
                 size={item.size}

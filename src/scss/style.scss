@@ -768,6 +768,11 @@
         background-color: $accent;
         box-shadow: 0px 7px 20px 0px rgba(52, 195, 255, 0.3);
       }
+
+      &[disabled]{
+        pointer-events: none;
+        background-color: #ccc;
+      }
     }
 
     .product-item__link-box {
@@ -785,6 +790,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+
+      .product-item__link[data-disabled="true"]{
+        pointer-events: none !important;
+        background-color: #ccc;
       }
 
       .product-item__link--line {
@@ -892,6 +902,10 @@
     path {
       fill: $accent;
     }
+  }
+
+  &__link[data-disabled="true"]{
+    pointer-events: none;;
   }
 
   &__images {

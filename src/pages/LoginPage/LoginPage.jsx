@@ -4,6 +4,17 @@ import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import { useDispatch } from 'react-redux';
 import { changeUserEmail, changeUserRole, changeLoading, changeUserId, changeToken } from "../../redux/slices/appSlice";
 import { URL } from "../../api/api";
+import axios from "axios";
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+}
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -24,35 +35,38 @@ export default function LoginPage() {
       method: method,
       body: JSON.stringify(body),
       headers: headers
-    }).then(response => {
-      return response.json()
-    });
+    })
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     dispatch(changeLoading(true))
 
-    requestFetch(`${URL}/user/login`, 'POST', { email: email, password: password })
-      .then(data => {
-        console.log(data)
-        if (data?.message) {
-          setMessage(data.message)
-          setSucces(false)
-        } else {
-          setSucces(true)
-          setMessage('')
-          dispatch(changeUserRole(data.isAdmin));
-          dispatch(changeUserEmail(email));
-          dispatch(changeUserId(data.idUser))
-          dispatch(changeToken(data.token))
-          navigate('/')
-        }
-        dispatch(changeLoading(false))
-      })
-      .catch(err => {
-        console.log(err);
-        dispatch(changeLoading(false))
-      });
+    const result = await axios.post(`${URL}/authenticate`, { username: email, password: password })
+    .catch((err) => {
+      setMessage("Wrong credentials")
+    }).finally(() => [
+      dispatch(changeLoading(false))
+    ])
+
+    if(result.status === 200){
+      setMessage('')
+      setSucces(true)
+
+      const {scp, sub} = parseJwt(result.data.token)
+      dispatch(changeUserEmail(email));
+      if(scp === "ROLE_ADMIN"){
+        dispatch(changeUserRole(true));
+      } else {
+        dispatch(changeUserRole(false));
+      }
+      dispatch(changeToken(sub))
+      navigate('/')
+    } else {
+      setSucces(false)
+    }
+
+    const idUser = await axios.post(`${URL}/user/get/email`, {email: email})
+    dispatch(changeUserId(idUser.data));
   }
 
 

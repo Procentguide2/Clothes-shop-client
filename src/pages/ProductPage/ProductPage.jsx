@@ -36,7 +36,7 @@ const requestFetch = (url, method = 'GET', body = null) => {
 
 function ProductPage({ colorObj }) {
   const dispatch = useDispatch()
-  const { isAdmin, userId, allColors, allCategories, token } = useSelector(state => state.app);
+  const { isAdmin, userId, allColors, allCategories, token, favorite } = useSelector(state => state.app);
   const [rerender, setRerender] = useState(false);
 
   const [open, setOpen] = useState(false);
@@ -171,7 +171,7 @@ function ProductPage({ colorObj }) {
     }).then(response => {
       handleClose()
       return response.json()
-    }).finally(() => {navigate(`/`)});    
+    }).finally(() => { navigate(`/`) });
   }
 
   return (
@@ -407,7 +407,7 @@ function ProductPage({ colorObj }) {
 
                   <div style={{ marginTop: 175 }}>
                     {/* <InputAmount /> */}
-                    <Button variant="contained" onClick={addToFavorite}>Add to favorite</Button>
+                    <Button variant="contained" disabled={favorite.findIndex((item) => item.id == id) >= 0 ? true : false  } onClick={addToFavorite}>Add to favorite</Button>
                   </div>
                 </div>
               </div>

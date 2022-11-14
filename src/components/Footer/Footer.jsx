@@ -83,7 +83,7 @@ function Footer({ userId }) {
             </div>
           </div>
           <div class="footer-bottom">
-            <p class="footer-bottom__copy">© 2022 Denys & Karina AI-201. All Rights Reserved.</p>
+            <p class="footer-bottom__copy">© 2022 Denys & Kostya AI-201. All Rights Reserved.</p>
             {/* <div class="footer-bottom__accept">
               We Accept
               <img class="footer-bottom__accept-img" src={paypal} alt="we accept paypal" />
