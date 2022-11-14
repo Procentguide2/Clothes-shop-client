@@ -60,7 +60,7 @@ export default function RegisterPage() {
           <form class="modal__form" action="#" onSubmit={(e) => { e.preventDefault(); onSubmit() }}>
             <label class="modal__label">
               Email address*
-              <input class="modal__input" type="e-mail" required onInput={(e) => setEmail(e.target.value)} />
+              <input class="modal__input" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required onInput={(e) => setEmail(e.target.value)} />
             </label>
             <label class="modal__label">
               Password*
