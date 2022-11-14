@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import { useDispatch } from 'react-redux';
 import { changeLoading } from "../../redux/slices/appSlice";
 import { URL } from "../../api/api";
+import axios from "axios";
 
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [succes, setSucces] = useState(false)
   const [message, setMessage] = useState('')
@@ -28,23 +30,19 @@ export default function RegisterPage() {
   }
 
   const onSubmit = () => {
-    dispatch(changeLoading(true))
-    requestFetch(`${URL}/user/register`, 'POST', { email: email, password: password })
-      .then(data => {
-        console.log(data)
-        if (data?.message) {
-          setMessage(data.message)
-          setSucces(false)
-        } else {
-          setSucces(true)
-          setMessage('')
-        }
-        dispatch(changeLoading(false))
-      })
-      .catch(err => {
-        dispatch(changeLoading(false))
-        console.log(err);
-      });
+    axios.post(`${URL}/user/register`, { email: email, password: password })
+    .then(res => {
+      if(res.status === 200){
+        setSucces(true)
+        setMessage('')
+      } else {
+        setMessage('Wrong credentials')
+        setSucces(false)
+      }
+    }).catch((err) => {
+      setMessage('Wrong credentials')
+        setSucces(false)
+    })
   }
 
   return (
@@ -68,9 +66,9 @@ export default function RegisterPage() {
               Password*
               <input class="modal__input" type="password" required onInput={(e) => setPassword(e.target.value)} />
             </label>
-            {message && (
+            {!succes && message && (
               <p class="modal__text" style={{ color: 'red' }}>
-                {message}! Try another email
+                Email already exist!
               </p>
             )}
             {succes && <p class="modal__text" style={{ color: '#34c3ff',  fontSize: 18}}>
