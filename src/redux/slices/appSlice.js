@@ -56,7 +56,7 @@ const appSlice = createSlice({
   initialState: {
     token: localStorage.getItem('token') || null,
     userId: localStorage.getItem('userId') || null,
-    isAdmin: localStorage.getItem('isAdmin') || false,
+    isAdmin: localStorage.getItem('isAdmin') === "false" ? false : true || false,
     email: localStorage.getItem('email') || '',
     favorite: [],
     loading: false,
@@ -65,6 +65,7 @@ const appSlice = createSlice({
   },
   reducers: {
     changeUserRole(state, { payload }) {
+      console.log(payload)
       state.isAdmin = payload;
       myStorage.setItem('isAdmin', payload)
     },
